@@ -2,8 +2,12 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile
       args:
          PROJECT_NAME: ${PROJECT_NAME}
+         USER_HOME: ${USER_HOME}
+    volumes:
+      - ./file_drop:${USER_HOME}/inbox:rw
     container_name: "${PROJECT_NAME}-venv" 
     command: bash
     tty: true
