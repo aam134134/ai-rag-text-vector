@@ -1,4 +1,4 @@
-FROM python:3.14.3-bookworm
+FROM python:3.12.12-bookworm
 
 ARG PROJECT_NAME=set_a_name
 ARG USER_HOME=/home/set_a_folder
@@ -17,7 +17,7 @@ RUN uv init
 RUN uv venv
 RUN echo "source \"${PROJECT_DIR}/.venv/bin/activate\"" >> ~/.bashrc
 
-RUN uv add unstructured==0.21.5
+RUN uv add unstructured[pdf]==0.21.5
 
 CMD ["python"]
 
