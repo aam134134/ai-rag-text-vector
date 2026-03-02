@@ -1,15 +1,16 @@
 services:
-  app:
+  file-watcher:
     image: ${PROJECT_NAME}:${PROJECT_VERSION}
     build:
       context: .
       dockerfile: Dockerfile
       args:
          PROJECT_NAME: ${PROJECT_NAME}
+         USER_HOME: ${USER_HOME}
+    command: ${USER_HOME}/file_watcher.py
     volumes:
-      - ./file_drop:/home/appuser/inbox:rw
+      - ./data:${USER_HOME}/data:rw
     container_name: "${PROJECT_NAME}" 
-    command: bash
     tty: true
     stdin_open: true
 

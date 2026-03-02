@@ -10,7 +10,7 @@ RUN useradd -m -u 1000 appuser
 USER appuser
 
 RUN mkdir -p ${PROJECT_DIR}
-RUN mkdir -p ${USER_HOME}/inbox
+RUN mkdir -p ${USER_HOME}/data/inbox ${USER_HOME}/data/archive
 WORKDIR ${PROJECT_DIR}
 
 RUN uv init
@@ -19,5 +19,6 @@ RUN echo "source \"${PROJECT_DIR}/.venv/bin/activate\"" >> ~/.bashrc
 
 RUN uv add unstructured==0.21.5
 
-CMD ["python"]
+COPY file_watcher.py ${PROJECT_DIR}/file_watcher.py
 
+ENTRYPOINT ["python3", "-u", "file_watcher.py"]
