@@ -20,7 +20,8 @@ while True:
 
         # Read file (text)
         elements = partition_text(filename=str(file))
-        print(elements)
+        chunks = chunk_elements(elements)
+        print(chunks)
 
         # Move to archive
         dest = ARCHIVE_DIR / file.name
