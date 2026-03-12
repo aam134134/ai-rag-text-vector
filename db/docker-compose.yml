@@ -1,16 +1,16 @@
 services:
   chroma:
-    image: chromadb/chroma:0.4.24
+    image: chromadb/chroma:1.5.3
     container_name: chroma
     ports:
       - "8000:8000"
     volumes:
-      - ../chroma_data:/chroma/chroma
+      - ../chroma_data:/data
     environment:
       - CHROMA_SERVER_BIND=0.0.0.0
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/collections"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/tenants/default_tenant/databases/default_database/collections"]
       interval: 5s
       timeout: 3s
       retries: 20
