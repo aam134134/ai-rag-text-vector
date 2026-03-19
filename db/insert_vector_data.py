@@ -20,7 +20,7 @@ ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 print(f"Watching {WATCH_DIR} -> Archiving to {ARCHIVE_DIR} (every {POLL_INTERVAL}s)")
 
 while True:
-    for file in WATCH_DIR.iterdir():
+    for file in WATCH_DIR.glob("*.jsonl"):
 
         print(f"Inserting embeds for {file.name}...")
 
