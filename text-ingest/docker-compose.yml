@@ -6,10 +6,13 @@ services:
       dockerfile: Dockerfile
       args:
          PROJECT_NAME: ${PROJECT_NAME}
-         USER_HOME: ${USER_HOME}
-#    command: ${USER_HOME}/file_watcher.py
     volumes:
       - ./data:${USER_HOME}/data:rw
+    environment:
+      USER_HOME: ${USER_HOME}
+      WATCH_DIR: ${USER_HOME}/data/ingest/inbox
+      ARCHIVE_DIR: ${USER_HOME}/data/ingest/archive
+      CHUNKS_DIR: ${USER_HOME}/data/ingest/chunks
     container_name: "${PROJECT_NAME}" 
     tty: true
     stdin_open: true

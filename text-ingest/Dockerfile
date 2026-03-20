@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-ARG PROJECT_NAME=set_a_name
+ARG PROJECT_NAME=ai-rag-text-vector-text-ingest
 ARG USER_HOME=/home/appuser
 ARG PROJECT_DIR=${USER_HOME}/${PROJECT_NAME}
 

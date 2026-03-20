@@ -9,11 +9,11 @@ from unstructured.chunking.title import chunk_by_title
 from unstructured.partition.html import partition_html
 from unstructured.partition.text import partition_text
 
-PROJECT_DATA_DIR = f"{Path.home()}/.local/share/ai-rag01"
-WATCH_DIR = Path(os.getenv("WATCH_DIR", f"{PROJECT_DATA_DIR}/ingest/inbox"))
-ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", f"{PROJECT_DATA_DIR}/ingest/archive"))
+PROJECT_DATA_DIR = Path("./data/ingest")
+WATCH_DIR = Path(os.getenv("WATCH_DIR", PROJECT_DATA_DIR / "inbox"))
+ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", PROJECT_DATA_DIR / "archive"))
+CHUNKS_DIR = Path(os.getenv("CHUNKS_DIR", PROJECT_DATA_DIR / "chunks"))
 POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "5"))
-CHUNKS_DIR = Path(os.getenv("CHUNKS_DIR", f"{PROJECT_DATA_DIR}/ingest/chunks"))
 
 WATCH_DIR.mkdir(parents=True, exist_ok=True)
 ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
