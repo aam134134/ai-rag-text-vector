@@ -14,9 +14,10 @@
 - Setup the virtual environment
   - ```python3.12 -m venv .venv```
 - Activate and setup the virtual environment
-  - macOS/Linux: ```source venv/bin/activate```
-  - Windows (Command Prompt): ```venv\Scripts\activate```
-  - Windows (PowerShell): ```venv\Scripts\Activate.ps1```
+  - Activate the venv (choose one)
+    - macOS/Linux: ```source venv/bin/activate```
+    - Windows (Command Prompt): ```venv\Scripts\activate```
+    - Windows (PowerShell): ```venv\Scripts\Activate.ps1```
   - ```python -m pip install --upgrade pip setuptools wheel```
   - ```python -m pip install -r requirements.txt```
 - Run program: ```python file_watcher.py```
