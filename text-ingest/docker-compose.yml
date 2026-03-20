@@ -7,12 +7,11 @@ services:
       args:
          PROJECT_NAME: ${PROJECT_NAME}
     volumes:
-      - ./data:${USER_HOME}/data:rw
+      - ./data:/app/data:rw
     environment:
-      USER_HOME: ${USER_HOME}
-      WATCH_DIR: ${USER_HOME}/data/ingest/inbox
-      ARCHIVE_DIR: ${USER_HOME}/data/ingest/archive
-      CHUNKS_DIR: ${USER_HOME}/data/ingest/chunks
+      WATCH_DIR: ${APP_HOME}/data/ingest/inbox
+      ARCHIVE_DIR: ${APP_HOME}/data/ingest/archive
+      CHUNKS_DIR: ${APP_HOME}/data/ingest/chunks
     container_name: "${PROJECT_NAME}" 
     tty: true
     stdin_open: true

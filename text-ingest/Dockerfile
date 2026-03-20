@@ -10,7 +10,6 @@ RUN useradd -m -u 1000 appuser
 USER appuser
 
 RUN mkdir -p ${PROJECT_DIR}
-RUN mkdir -p ${USER_HOME}/data/inbox ${USER_HOME}/data/archive
 WORKDIR ${PROJECT_DIR}
 
 RUN uv init
