@@ -11,12 +11,14 @@
 ## To Setup and Run Locally
 
 - Requires Python 3.12
-- ```python3.12 -m venv .venv```
-- macOS/Linux: ```source venv/bin/activate```
-- Windows (Command Prompt): ```venv\Scripts\activate```
-- Windows (PowerShell): ```venv\Scripts\Activate.ps1```
-- ```python -m pip install --upgrade pip setuptools wheel```
-- ```python -m pip install -r requirements.txt```
+- Setup the virtual environment
+  - ```python3.12 -m venv .venv```
+- Activate and setup the virtual environment
+  - macOS/Linux: ```source venv/bin/activate```
+  - Windows (Command Prompt): ```venv\Scripts\activate```
+  - Windows (PowerShell): ```venv\Scripts\Activate.ps1```
+  - ```python -m pip install --upgrade pip setuptools wheel```
+  - ```python -m pip install -r requirements.txt```
 - Run program: ```python file_watcher.py```
 - Drop a text (*.txt) file to ingest into ```./data/ingest/inbox```
 - View chunked data in ```./data/chunks```
