@@ -35,12 +35,17 @@ while True:
         #print(elements)
 
         print("Chunking...")
+        # smaller chunks around 700-900 characters are more likely to keep one scene or exchange together
+        # overlap=120 helps retrieval when a character name or idea falls near a chunk boundary
+        # combine_text_under_n_chars=200 helps avoid tiny fragments like short quoted lines becoming standalone chunks
         chunks = chunk_by_title(
             elements,
-            max_characters=1200,
-            new_after_n_chars=1000,
-            overlap=80,
+            max_characters=900,
+            new_after_n_chars=700,
+            overlap=120,
+            combine_text_under_n_chars=200,
         )
+
         print("Chunking complete.")
         #print(chunks)
 

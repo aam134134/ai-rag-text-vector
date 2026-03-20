@@ -17,14 +17,14 @@ EMBEDS_DIR.mkdir(parents=True, exist_ok=True)
 
 print(f"Watching {WATCH_DIR} -> Archiving to {ARCHIVE_DIR} -> Embedding to {EMBEDS_DIR} (every {POLL_INTERVAL}s)")
 
+model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+
 while True:
-    for file in WATCH_DIR.iterdir():
+    for file in WATCH_DIR.glob("*.jsonl"):
 
         doc_id = file.stem    
         tmp = EMBEDS_DIR / f"{doc_id}.jsonl.tmp"    
         out = EMBEDS_DIR / f"{doc_id}.jsonl"
-
-        model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
         # Stream read input and stream write output to tmp
         count = 0
