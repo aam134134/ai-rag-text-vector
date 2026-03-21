@@ -9,7 +9,7 @@ from unstructured.chunking.title import chunk_by_title
 from unstructured.partition.html import partition_html
 from unstructured.partition.text import partition_text
 
-PROJECT_DATA_DIR = Path("./data/ingest")
+PROJECT_DATA_DIR = Path("../data/ingest")
 WATCH_DIR = Path(os.getenv("WATCH_DIR", PROJECT_DATA_DIR / "inbox"))
 ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", PROJECT_DATA_DIR / "archive"))
 CHUNKS_DIR = Path(os.getenv("CHUNKS_DIR", PROJECT_DATA_DIR / "chunks"))
