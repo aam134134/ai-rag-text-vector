@@ -1,18 +1,18 @@
 services:
-  file-watcher:
-    image: ${PROJECT_NAME}:${PROJECT_VERSION}
+  ai-rag-text-vector-chunk-embedding:
+    image: ai-rag-text-vector-chunk-embedding:1.0
     build:
       context: .
       dockerfile: Dockerfile
       args:
-         PROJECT_NAME: ${PROJECT_NAME}
+         PROJECT_NAME: ai-rag-text-vector-chunk-embedding
     volumes:
       - ../data:/app/data:rw
     environment:
-      WATCH_DIR: ${INGEST_DATA_HOME}/chunks
-      ARCHIVE_DIR: ${CHUNK_DATA_HOME}/archive
-      EMBEDS_DIR: ${CHUNK_DATA_HOME}/embeds
-    container_name: "${PROJECT_NAME}" 
+      WATCH_DIR: /app/data/ingest/chunks
+      ARCHIVE_DIR: /app/data/chunks/archive
+      EMBEDS_DIR: /app/data/chunks/embeds
+    container_name: ai-rag-text-vector-chunk-embedding 
     tty: true
     stdin_open: true
 
