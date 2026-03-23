@@ -1,5 +1,5 @@
 services:
-  vector-data-ingest:
+  ai-rag-text-vector-vector-data-ingest:
     image: ai-rag-text-vector-vector-data-ingest:1.0
     build:
       context: .
