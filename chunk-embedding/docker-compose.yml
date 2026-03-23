@@ -1,0 +1,18 @@
+services:
+  file-watcher:
+    image: ${PROJECT_NAME}:${PROJECT_VERSION}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+         PROJECT_NAME: ${PROJECT_NAME}
+    volumes:
+      - ../data:/app/data:rw
+    environment:
+      WATCH_DIR: ${INGEST_DATA_HOME}/chunks
+      ARCHIVE_DIR: ${CHUNK_DATA_HOME}/archive
+      EMBEDS_DIR: ${CHUNK_DATA_HOME}/embeds
+    container_name: "${PROJECT_NAME}" 
+    tty: true
+    stdin_open: true
+

@@ -5,10 +5,10 @@ import shutil
 from pathlib import Path
 from sentence_transformers import SentenceTransformer
 
-PROJECT_DATA_DIR = f"{Path.home()}/.local/share/ai-rag01"
-WATCH_DIR = Path(os.getenv("WATCH_DIR", f"{PROJECT_DATA_DIR}/ingest/chunks"))
-ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", f"{PROJECT_DATA_DIR}/chunks/archive"))
-EMBEDS_DIR = Path(os.getenv("EMBEDS_DIR", f"{PROJECT_DATA_DIR}/chunks/embeds"))
+PROJECT_DATA_DIR = Path("../data")
+WATCH_DIR = Path(os.getenv("WATCH_DIR", PROJECT_DATA_DIR / "ingest/chunks"))
+ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", PROJECT_DATA_DIR / "chunks/archive"))
+EMBEDS_DIR = Path(os.getenv("EMBEDS_DIR", PROJECT_DATA_DIR / "chunks/embeds"))
 POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "5"))
 
 WATCH_DIR.mkdir(parents=True, exist_ok=True)
