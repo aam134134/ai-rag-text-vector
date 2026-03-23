@@ -34,3 +34,46 @@ services:
       - text-ingest
     tty: true
     stdin_open: true
+
+  vector-db:
+    image: chromadb/chroma:1.5.3
+    container_name: chroma-vector-db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data/chroma_data:/data
+    environment:
+      - CHROMA_SERVER_BIND=0.0.0.0
+    networks:
+      - ai-rag-text-vector-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/tenants/default_tenant/databases/default_database/collections"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  vector-data-ingest:
+    image: ai-rag-text-vector-vector-data-ingest:1.0
+    build:
+      context: ./vector-data-ingest
+      dockerfile: Dockerfile
+      args:
+         PROJECT_NAME: ai-rag-text-vector-vector-data-ingest
+    volumes:
+      - ./data:/app/data:rw
+    environment:
+      WATCH_DIR: /app/data/chunks/embeds
+      ARCHIVE_DIR: /app/data/embeds/archive
+      VECTOR_DB_HOST: chroma-vector-db
+    networks:
+      - ai-rag-text-vector-net
+    container_name: ai-rag-text-vector-vector-data-ingest
+    depends_on:
+      - vector-db
+    tty: true
+    stdin_open: true
+
+networks:
+  ai-rag-text-vector-net:
+    name: ai-rag-text-vector-net

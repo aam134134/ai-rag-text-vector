@@ -11,7 +11,7 @@ services:
     environment:
       WATCH_DIR: /app/data/chunks/embeds
       ARCHIVE_DIR: /app/data/embeds/archive
-      VECTOR_DB_HOST: chroma
+      VECTOR_DB_HOST: chroma-vector-db
     networks:
       - ai-rag-text-vector-net
     container_name: ai-rag-text-vector-vector-data-ingest

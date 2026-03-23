@@ -1,7 +1,7 @@
 services:
   chroma:
     image: chromadb/chroma:1.5.3
-    container_name: chroma
+    container_name: chroma-vector-db
     ports:
       - "8000:8000"
     volumes:
