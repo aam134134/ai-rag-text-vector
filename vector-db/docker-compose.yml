@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ../chroma_data:/data
+      - ../data/chroma_data:/data
     environment:
       - CHROMA_SERVER_BIND=0.0.0.0
     restart: unless-stopped
