@@ -8,9 +8,15 @@ services:
       - ../data/chroma_data:/data
     environment:
       - CHROMA_SERVER_BIND=0.0.0.0
+    networks:
+      - ai-rag-text-vector-net
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/tenants/default_tenant/databases/default_database/collections"]
       interval: 5s
       timeout: 3s
       retries: 20
+
+networks:
+  ai-rag-text-vector-net:
+    name: ai-rag-text-vector-net
