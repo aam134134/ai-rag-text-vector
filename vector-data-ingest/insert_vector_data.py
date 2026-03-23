@@ -1,21 +1,22 @@
 import time, shutil, chromadb, jsonlines, os
 from pathlib import Path
 
-client = chromadb.HttpClient(host="localhost", port=8000)
+PROJECT_DATA_DIR = Path("../data")
+WATCH_DIR = Path(os.getenv("WATCH_DIR", PROJECT_DATA_DIR / "chunks/embeds"))
+ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", PROJECT_DATA_DIR / "embeds/archive"))
+VECTOR_DB_HOST = os.getenv("VECTOR_DB_HOST", "localhost")
+POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "5"))
+
+WATCH_DIR.mkdir(parents=True, exist_ok=True)
+ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
+
+client = chromadb.HttpClient(host=VECTOR_DB_HOST, port=8000)
 
 # Create collection
 collection = client.get_or_create_collection(
     name="ai-rag-text-vector",
     metadata={"description": "Db store for ai-rag-text-vector"}
 )
-
-PROJECT_DATA_DIR = Path("../data")
-WATCH_DIR = Path(os.getenv("WATCH_DIR", PROJECT_DATA_DIR / "chunks/embeds"))
-ARCHIVE_DIR = Path(os.getenv("ARCHIVE_DIR", PROJECT_DATA_DIR / "embeds/archive"))
-POLL_INTERVAL = int(os.getenv("POLL_INTERVAL", "5"))
-
-WATCH_DIR.mkdir(parents=True, exist_ok=True)
-ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 
 print(f"Watching {WATCH_DIR} -> Archiving to {ARCHIVE_DIR} (every {POLL_INTERVAL}s)")
 
