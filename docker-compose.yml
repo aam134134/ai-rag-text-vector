@@ -1,0 +1,36 @@
+services:
+  text-ingest:
+    image: ai-rag-text-vector-text-ingest:1.0
+    build:
+      context: ./text-ingest
+      dockerfile: Dockerfile
+      args:
+        PROJECT_NAME: ai-rag-text-vector-text-ingest
+    volumes:
+      - ./data:/app/data:rw
+    environment:
+      WATCH_DIR: /app/data/ingest/inbox
+      ARCHIVE_DIR: /app/data/ingest/archive
+      CHUNKS_DIR: /app/data/ingest/chunks
+    container_name: ai-rag-text-vector-text-ingest
+    tty: true
+    stdin_open: true
+
+  chunk-embedding:
+    image: ai-rag-text-vector-chunk-embedding:1.0
+    build:
+      context: ./chunk-embedding
+      dockerfile: Dockerfile
+      args:
+        PROJECT_NAME: ai-rag-text-vector-chunk-embedding
+    volumes:
+      - ./data:/app/data:rw
+    environment:
+      WATCH_DIR: /app/data/ingest/chunks
+      ARCHIVE_DIR: /app/data/chunks/archive
+      EMBEDS_DIR: /app/data/chunks/embeds
+    container_name: ai-rag-text-vector-chunk-embedding
+    depends_on:
+      - text-ingest
+    tty: true
+    stdin_open: true
