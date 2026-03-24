@@ -11,7 +11,7 @@
     - Windows (Command Prompt): ```.venv\Scripts\activate```
     - Windows (PowerShell): ```.venv\Scripts\Activate.ps1```
   - ```python -m pip install --upgrade pip setuptools wheel```
-  - ```python -m pip install -r requirements.txt``
+  - ```python -m pip install -r requirements.txt```
 
 ## Query and View Vector DB Results
 To query the collection for the most relevant chunks:
