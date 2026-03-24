@@ -20,7 +20,8 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
   - Starts all the PODs including the Vector DB and LLM
   - This step will take a few minutes to build the images and pull the LLM
 - Copy ```./sample-data/book-war-and-peace-ch-01.txt``` into ```./data/ingest/inbox```
-  - This will kick-off the file processing the ultimately insert the embeds into the vector db.
+  - This will kick-off the file processing the ultimately insert the embeds into the vector db
+- Follow instructions in the [Ask README](https://github.com/aam134134/ai-rag-text-vector/blob/main/ask/README.md) to query and view results from the vector db and/or the LLM
 - Shutdown container: ```podman compose down```
 
 ## 💡 Interesting Bits
