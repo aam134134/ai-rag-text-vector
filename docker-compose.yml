@@ -74,6 +74,40 @@ services:
     tty: true
     stdin_open: true
 
+  ollama:
+    image: ollama/ollama:0.18.2
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./data/ollama:/root/.ollama
+    networks:
+      - ai-rag-text-vector-net
+    restart: unless-stopped
+
+  ollama-model-pull:
+    image: ollama/ollama:0.18.2
+    container_name: ollama-model-pull
+    depends_on:
+      - ollama
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        echo "Waiting for Ollama server at http://ollama:11434..."
+        until ollama list >/dev/null 2>&1; do
+          echo "Ollama not ready yet; retrying in 2 seconds..."
+          sleep 2
+        done
+        echo "Ollama is ready. Pulling model llama3.1:8b..."
+        ollama pull llama3.1:8b
+        echo "Model pull complete."
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    networks:
+      - ai-rag-text-vector-net
+    restart: "no"
+
 networks:
   ai-rag-text-vector-net:
     name: ai-rag-text-vector-net
