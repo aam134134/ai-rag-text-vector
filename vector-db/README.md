@@ -17,3 +17,13 @@ Useful flags:
 ```bash
 python query_vector_data.py "What is this document about?" --top-k 5 --include-embeddings
 ```
+
+To retrieve chunks and ask an LLM for a grounded answer:
+```bash
+python ask_vector_data.py "Who is Anna Pavlovna Scherer?"
+```
+
+This uses a local Ollama server by default. Example with an explicit local model:
+```bash
+python ask_vector_data.py "Who is Anna Pavlovna Scherer?" --model llama3.1:8b
+```
