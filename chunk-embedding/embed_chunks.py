@@ -41,7 +41,12 @@ while True:
                         text = row.get("text")
 
                         # Encode ONE line at a time to keep memory low
-                        # Using a list to get consistent output shape; then take [0]
+                        # convert_to_numpy=True means the embedding is returned as a NumPy array instead of a framework-specific tensor.
+                        # Useful in a local RAG pipeline because it makes the vector easy to serialize, convert to 
+                        # a Python list, and store in Chroma without extra PyTorch handling.
+                        # normalize_embeddings=True scales each embedding to unit length. 
+                        # Helpful for semantic search because similarity comparisons become more stable 
+                        # and retrieval quality is often better when document and query vectors are normalized the same way.
                         vec = model.encode(
                             [text],
                             convert_to_numpy=True,
