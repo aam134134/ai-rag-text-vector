@@ -13,6 +13,9 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
 - Builds a context‑rich prompt for the LLM
 - Generates a grounded answer based on your actual content
 
+## Interesting Bits
+[Text Ingest File Chunking](https://github.com/aam134134/ai-rag-text-vector/blob/7afefe55f518d57ce445cc0069261502dfe6446b/text-ingest/file_watcher.py#L38-L47)
+
 ## 🔄 RAG Workflow (High‑Level Overview)
 1. Document Processing
 
