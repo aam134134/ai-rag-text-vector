@@ -16,7 +16,8 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
 ## Instructions
 - Install Python 3.12
 - Install Docker and/or Podman
-- Build and run: ```podman compose up --build``` (starts all the PODs inluding the Vector DB and LLM)
+- Build and run: ```podman compose up --build```
+  - Starts all the PODs including the Vector DB and LLM
   - This step will take a few minutes to build the images and pull the LLM
 - Copy ```./sample-data/book-war-and-peace-ch-01.txt``` into ```./data/ingest/inbox```
   - This will kick-off the file processing the ultimately insert the embeds into the vector db.
@@ -25,7 +26,14 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
 ## 💡 Interesting Bits
 - [Text Ingest File Chunking](https://github.com/aam134134/ai-rag-text-vector/blob/7afefe55f518d57ce445cc0069261502dfe6446b/text-ingest/file_watcher.py#L38-L47)
 
+- [Text Chunk Embedding Model](https://github.com/aam134134/ai-rag-text-vector/blob/d7b24310eea4dd2f15965dad775d43ef0fe9cd6c/chunk-embedding/embed_chunks.py#L20)
 - [Text Chunk Embedding](https://github.com/aam134134/ai-rag-text-vector/blob/26b7ec9d05ede579e7fd596d24a8056f0870c770/chunk-embedding/embed_chunks.py#L43-L55)
+
+- [Ollama Model](https://github.com/aam134134/ai-rag-text-vector/blob/d7b24310eea4dd2f15965dad775d43ef0fe9cd6c/ask/ask_vector_data.py#L10) 
+
+- [LLM System Prompt](https://github.com/aam134134/ai-rag-text-vector/blob/d7b24310eea4dd2f15965dad775d43ef0fe9cd6c/ask/ask_vector_data.py#L13-L28)
+
+
 
 ## 🔄 RAG Workflow (High‑Level Overview)
 1. Document Processing
