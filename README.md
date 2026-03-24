@@ -16,6 +16,8 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
 ## Interesting Bits
 [Text Ingest File Chunking](https://github.com/aam134134/ai-rag-text-vector/blob/7afefe55f518d57ce445cc0069261502dfe6446b/text-ingest/file_watcher.py#L38-L47)
 
+[Text Chunk Embedding](https://github.com/aam134134/ai-rag-text-vector/blob/26b7ec9d05ede579e7fd596d24a8056f0870c770/chunk-embedding/embed_chunks.py#L43-L55)
+
 ## 🔄 RAG Workflow (High‑Level Overview)
 1. Document Processing
 
