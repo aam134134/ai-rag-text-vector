@@ -1,15 +1,17 @@
 import argparse
 import json
-import os
 
 import chromadb
 from sentence_transformers import SentenceTransformer
 
 COLLECTION_NAME = "ai-rag-text-vector"
-EMBED_MODEL_NAME = os.getenv("EMBED_MODEL_NAME", "BAAI/bge-small-en-v1.5")
-EMBED_DEVICE = os.getenv("EMBED_DEVICE")
-EMBED_NORMALIZE = os.getenv("EMBED_NORMALIZE", "true").lower() == "true"
-QUERY_TEXT_PREFIX = os.getenv("QUERY_TEXT_PREFIX", "")
+VECTOR_DB_HOST = "localhost"
+VECTOR_DB_PORT = 8000
+TOP_K = 5
+EMBED_MODEL_NAME = "BAAI/bge-small-en-v1.5"
+EMBED_DEVICE = None
+EMBED_NORMALIZE = True
+QUERY_TEXT_PREFIX = ""
 
 
 def build_query_input(query):
@@ -28,11 +30,10 @@ def embed_query(query):
 
 def query_collection(
     query,
-    host="localhost",
-    port=8000,
+    host=VECTOR_DB_HOST,
+    port=VECTOR_DB_PORT,
     collection_name=COLLECTION_NAME,
-    top_k=3,
-    include_embeddings=False,
+    top_k=TOP_K,
 ):
     if top_k < 1:
         raise ValueError("top_k must be at least 1")
@@ -41,14 +42,10 @@ def query_collection(
     client = chromadb.HttpClient(host=host, port=port)
     collection = client.get_collection(name=collection_name)
 
-    include_fields = ["documents", "metadatas", "distances"]
-    if include_embeddings:
-        include_fields.append("embeddings")
-
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=top_k,
-        include=include_fields,
+        include=["documents", "metadatas", "distances"],
     )
 
     documents = results.get("documents", [[]])[0]
@@ -75,33 +72,6 @@ def parse_args():
         description="Query the Chroma vector store for the most relevant text chunks."
     )
     parser.add_argument("query", help="Natural-language query to search for.")
-    parser.add_argument(
-        "--host",
-        default="localhost",
-        help="Chroma host. Defaults to localhost.",
-    )
-    parser.add_argument(
-        "--port",
-        type=int,
-        default=8000,
-        help="Chroma port. Defaults to 8000.",
-    )
-    parser.add_argument(
-        "--collection",
-        default=COLLECTION_NAME,
-        help=f"Collection name. Defaults to {COLLECTION_NAME}.",
-    )
-    parser.add_argument(
-        "--top-k",
-        type=int,
-        default=3,
-        help="Number of matches to return. Defaults to 3.",
-    )
-    parser.add_argument(
-        "--include-embeddings",
-        action="store_true",
-        help="Include embeddings in the raw JSON output from Chroma.",
-    )
     return parser.parse_args()
 
 
@@ -110,11 +80,10 @@ def main():
 
     matches = query_collection(
         query=args.query,
-        host=args.host,
-        port=args.port,
-        collection_name=args.collection,
-        top_k=args.top_k,
-        include_embeddings=args.include_embeddings
+        host=VECTOR_DB_HOST,
+        port=VECTOR_DB_PORT,
+        collection_name=COLLECTION_NAME,
+        top_k=TOP_K,
     )
 
     if not matches:

@@ -1,12 +1,9 @@
-# [Unstructured](https://unstructured.io) Text Ingest Container 
-
-[Unstructured install doc](https://docs.unstructured.io/open-source/installation/full-installation)
+# Insert Vector Data
 
 ## To Build and Run via Podman/Docker
 
 - Build and run: ```podman compose up --build```
-- Drop a text (*.txt) file to ingest into ```../data/ingest/inbox```
-- View chunked data in ```../data/ingest/chunks```
+- Drop a JSONL (*.jsonl) file with embeds into ```../data/chunks/embeds```
 - Shutdown container: ```podman compose down```
 
 ## To Setup and Run Locally
@@ -21,6 +18,5 @@
     - Windows (PowerShell): ```.venv\Scripts\Activate.ps1```
   - ```python -m pip install --upgrade pip setuptools wheel```
   - ```python -m pip install -r requirements.txt```
-- Run program: ```python file_watcher.py```
-- Drop a text (*.txt) file to ingest into ```./data/ingest/inbox```
-- View chunked data in ```./data/chunks```
+- Run program: ```python insert_vector_data.py```
+- Drop a JSONL (*.jsonl) file with embeds into ```../data/chunks/embeds```
