@@ -114,7 +114,7 @@ def main():
         port=args.port,
         collection_name=args.collection,
         top_k=args.top_k,
-        include_embeddings=args.include_embeddings,
+        include_embeddings=args.include_embeddings
     )
 
     if not matches:

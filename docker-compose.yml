@@ -99,8 +99,8 @@ services:
           echo "Ollama not ready yet; retrying in 2 seconds..."
           sleep 2
         done
-        echo "Ollama is ready. Pulling model llama3.1:8b..."
-        ollama pull llama3.1:8b
+        echo "Ollama is ready. Pulling model..."
+        ollama pull qwen2.5:1.5b
         echo "Model pull complete."
     environment:
       OLLAMA_HOST: http://ollama:11434

@@ -7,8 +7,8 @@ from query_vector_data import COLLECTION_NAME, query_collection
 
 SYSTEM_PROMPT = """You answer questions using only the supplied context.
 If the context is insufficient, say so clearly.
-Be concise and cite the chunk numbers you used in square brackets like [1] or [2]."""
-
+Every factual statement in your answer must include at least one citation in square brackets, using the provided chunk numbers such as [1] or [2].
+If you cannot support a claim from the context, do not make it."""
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -30,7 +30,7 @@ def parse_args():
     )
     parser.add_argument(
         "--model",
-        default=os.getenv("LLM_MODEL", "llama3.1:8b"),
+        default=os.getenv("LLM_MODEL", "qwen2.5:1.5b"),
         help="Ollama model name. Defaults to env LLM_MODEL or llama3.1:8b.",
     )
     parser.add_argument(
@@ -81,7 +81,7 @@ def main():
         host=args.host,
         port=args.port,
         collection_name=args.collection,
-        top_k=args.top_k,
+        top_k=args.top_k
     )
 
     if not matches:
@@ -98,7 +98,8 @@ def main():
     user_prompt = (
         f"Question: {args.query}\n\n"
         f"Context:\n{context}\n\n"
-        "Answer the question using only the context above."
+        "Answer the question using only the context above. "
+        "Cite every sentence with one or more chunk numbers in square brackets."
     )
 
     print(ask_ollama(args.model, args.ollama_url, user_prompt))
