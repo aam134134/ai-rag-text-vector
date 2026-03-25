@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ask Service UI</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: rgba(255, 252, 246, 0.9);
+      --panel-strong: #fffaf0;
+      --border: #d7c6ae;
+      --text: #2f2419;
+      --muted: #6a5a47;
+      --accent: #b55d24;
+      --accent-dark: #7b3b14;
+      --ok: #2f8f57;
+      --warn: #c58a18;
+      --bad: #b23a2e;
+      --shadow: 0 22px 50px rgba(88, 58, 27, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 211, 168, 0.7), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(181, 93, 36, 0.18), transparent 28%),
+        linear-gradient(160deg, #f7f1e7 0%, #efe4d0 52%, #e5d4bf 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(920px, 100%);
+      background: var(--panel);
+      border: 1px solid rgba(122, 88, 54, 0.18);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero {
+      padding: 28px 28px 18px;
+      background:
+        linear-gradient(135deg, rgba(181, 93, 36, 0.14), rgba(255, 255, 255, 0)),
+        linear-gradient(180deg, rgba(255, 248, 236, 0.9), rgba(255, 252, 246, 0.75));
+      border-bottom: 1px solid rgba(122, 88, 54, 0.16);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 52rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+      padding: 24px 28px 28px;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--panel-strong);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(122, 88, 54, 0.14);
+      background: rgba(255, 255, 255, 0.76);
+      font-size: 0.95rem;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--warn);
+      box-shadow: 0 0 0 4px rgba(197, 138, 24, 0.14);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .status-pill.online .status-dot {
+      background: var(--ok);
+      box-shadow: 0 0 0 4px rgba(47, 143, 87, 0.14);
+    }
+
+    .status-pill.offline .status-dot {
+      background: var(--bad);
+      box-shadow: 0 0 0 4px rgba(178, 58, 46, 0.14);
+    }
+
+    .status-meta {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(255, 252, 246, 0.95);
+      color: var(--text);
+      font: inherit;
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    textarea:focus,
+    button:focus {
+      outline: 2px solid rgba(181, 93, 36, 0.28);
+      outline-offset: 2px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fffdf8;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.72;
+      transform: none;
+    }
+
+    .request-state {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .panel {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--panel-strong);
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 0.93rem;
+      line-height: 1.55;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    @media (max-width: 640px) {
+      .hero,
+      .content {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .status-row {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>Ask Your RAG Service</h1>
+      <p class="subtitle">
+        Send a question to <code>/ask</code>, check whether the service is healthy, and read the answer directly in the browser.
+      </p>
+    </section>
+
+    <section class="content">
+      <div class="status-row">
+        <div id="status-pill" class="status-pill">
+          <span class="status-dot" aria-hidden="true"></span>
+          <strong id="status-label">Checking service...</strong>
+        </div>
+        <div id="status-meta" class="status-meta">Waiting for health check</div>
+      </div>
+
+      <form id="ask-form">
+        <div>
+          <label for="query">Question</label>
+        </div>
+        <textarea id="query" name="query" placeholder="Who is Anna Pavlovna Scherer?" required></textarea>
+        <div class="actions">
+          <button id="submit-btn" type="submit">Send Request</button>
+          <div id="request-state" class="request-state">Ready</div>
+        </div>
+      </form>
+
+      <section class="panel">
+        <h2>Response</h2>
+        <pre id="response" class="empty">Your answer will appear here.</pre>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const statusPill = document.getElementById("status-pill");
+    const statusLabel = document.getElementById("status-label");
+    const statusMeta = document.getElementById("status-meta");
+    const askForm = document.getElementById("ask-form");
+    const queryInput = document.getElementById("query");
+    const submitBtn = document.getElementById("submit-btn");
+    const requestState = document.getElementById("request-state");
+    const responseEl = document.getElementById("response");
+
+    function setStatus(state, label, meta) {
+      statusPill.classList.remove("online", "offline");
+      if (state === "online" || state === "offline") {
+        statusPill.classList.add(state);
+      }
+      statusLabel.textContent = label;
+      statusMeta.textContent = meta;
+    }
+
+    function setResponse(text, isEmpty = false) {
+      responseEl.textContent = text;
+      responseEl.classList.toggle("empty", isEmpty);
+    }
+
+    async function refreshHealth() {
+      setStatus("", "Checking service...", "Refreshing health status");
+      try {
+        const response = await fetch("/health");
+        if (!response.ok) {
+          throw new Error("Health check failed");
+        }
+
+        const data = await response.json();
+        setStatus(
+          "online",
+          "Service online",
+          `Model: ${data.ollama_model} | Vector DB: ${data.vector_db_host}:${data.vector_db_port} | top_k: ${data.top_k}`
+        );
+      } catch (error) {
+        setStatus("offline", "Service unavailable", "Unable to reach /health");
+      }
+    }
+
+    askForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const query = queryInput.value.trim();
+      if (!query) {
+        setResponse("Please enter a question before sending the request.", false);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      requestState.textContent = "Waiting for response...";
+      setResponse("Loading...", false);
+
+      try {
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ query })
+        });
+
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.detail || "Request failed");
+        }
+
+        requestState.textContent = "Response received";
+        setResponse(payload.answer || JSON.stringify(payload, null, 2), false);
+      } catch (error) {
+        requestState.textContent = "Request failed";
+        setResponse(`Error: ${error.message}`, false);
+      } finally {
+        submitBtn.disabled = false;
+        refreshHealth();
+      }
+    });
+
+    refreshHealth();
+    window.setInterval(refreshHealth, 15000);
+  </script>
+</body>
+</html>

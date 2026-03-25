@@ -13,6 +13,7 @@ WORKDIR ${PROJECT_DIR}
 COPY ask_vector_data.py .
 COPY query_vector_data.py .
 COPY server.py .
+COPY static ./static
 
 EXPOSE 8010
 

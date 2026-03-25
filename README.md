@@ -23,7 +23,8 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
   - This step will take a few minutes to build the images and pull the LLM
 - Copy ```./sample-data/book-war-and-peace-ch-01.txt``` into ```./data/ingest/inbox```
   - This will kick-off the file processing the ultimately insert the embeds into the vector db.
-- Give it a test: ```curl -X POST http://localhost:8010/ask -H "Content-Type: application/json" -d '{"query":"Who is Anna Pavlovna Scherer?"}'```
+- Give it a simple test: `http://localhost:8010/`
+  - Example: ```What is Anna Pavlovna's view about Russia's role in Europe?```
 - Shutdown all containers: ```podman compose down```
 
 ## 💡 Interesting Bits

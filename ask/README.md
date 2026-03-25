@@ -31,6 +31,12 @@ python ask_vector_data.py "What is Anna Pavlovna's view about Russia's role in E
 uvicorn server:app --host 0.0.0.0 --port 8010
 ```
 
+Open the web UI at:
+
+```bash
+http://localhost:8010/
+```
+
 Example requests:
 
 ```bash
