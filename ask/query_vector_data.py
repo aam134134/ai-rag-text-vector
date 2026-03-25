@@ -1,17 +1,18 @@
 import argparse
 import json
+import os
 
 import chromadb
 from sentence_transformers import SentenceTransformer
 
 COLLECTION_NAME = "ai-rag-text-vector"
-VECTOR_DB_HOST = "localhost"
-VECTOR_DB_PORT = 8000
-TOP_K = 5
-EMBED_MODEL_NAME = "BAAI/bge-small-en-v1.5"
-EMBED_DEVICE = None
-EMBED_NORMALIZE = True
-QUERY_TEXT_PREFIX = ""
+VECTOR_DB_HOST = os.getenv("VECTOR_DB_HOST", "localhost")
+VECTOR_DB_PORT = int(os.getenv("VECTOR_DB_PORT", "8000"))
+TOP_K = int(os.getenv("TOP_K", "5"))
+EMBED_MODEL_NAME = os.getenv("EMBED_MODEL_NAME", "BAAI/bge-small-en-v1.5")
+EMBED_DEVICE = os.getenv("EMBED_DEVICE") or None
+EMBED_NORMALIZE = os.getenv("EMBED_NORMALIZE", "true").lower() == "true"
+QUERY_TEXT_PREFIX = os.getenv("QUERY_TEXT_PREFIX", "")
 
 
 def build_query_input(query):

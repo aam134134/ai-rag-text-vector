@@ -24,3 +24,21 @@ python query_vector_data.py "What is Anna Pavlovna's view about Russia's role in
 ```bash
 python ask_vector_data.py "What is Anna Pavlovna's view about Russia's role in Europe?"
 ```
+
+## Run the Ask HTTP Service
+
+```bash
+uvicorn server:app --host 0.0.0.0 --port 8010
+```
+
+Example requests:
+
+```bash
+curl http://localhost:8010/health
+```
+
+```bash
+curl -X POST http://localhost:8010/ask \
+  -H "Content-Type: application/json" \
+  -d '{"query":"What is Anna Pavlovna'\''s view about Russia'\''s role in Europe?"}'
+```

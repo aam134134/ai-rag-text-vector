@@ -14,14 +14,16 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
 - Generates a grounded answer based on actual content
 
 ## Instructions
-- Install Python 3.12
-- Install Docker and/or Podman
+- Install Docker and Podman
+- Init a Podman machine:```podman init machine```
+- Make sure Podman has enough memory to host all the containers (3 gigs should be fine): ```podman machine set --memory 3072```
+- Start Podman machine: ```podman machine start```
 - Build and run: ```podman compose up --build```
   - Starts all the PODs including the Vector DB and LLM
   - This step will take a few minutes to build the images and pull the LLM
 - Copy ```./sample-data/book-war-and-peace-ch-01.txt``` into ```./data/ingest/inbox```
-  - This will kick-off the file processing the ultimately insert the embeds into the vector db
-- Follow instructions in the [Ask README](https://github.com/aam134134/ai-rag-text-vector/blob/main/ask/README.md) to query and view results from the vector db and/or the LLM
+  - This will kick-off the file processing the ultimately insert the embeds into the vector db.
+- Give it a test: ```curl -X POST http://localhost:8010/ask -H "Content-Type: application/json" -d '{"query":"Who is Anna Pavlovna Scherer?"}'```
 - Shutdown container: ```podman compose down```
 
 ## 💡 Interesting Bits

@@ -1,14 +1,16 @@
 import argparse
 import json
+import os
 import urllib.request
+from urllib.error import HTTPError, URLError
 
 from query_vector_data import COLLECTION_NAME, query_collection
 
-VECTOR_DB_HOST = "localhost"
-VECTOR_DB_PORT = 8000
-TOP_K = 5
-OLLAMA_MODEL = "qwen2.5:1.5b"
-OLLAMA_URL = "http://localhost:11434/api/generate"
+VECTOR_DB_HOST = os.getenv("VECTOR_DB_HOST", "localhost")
+VECTOR_DB_PORT = int(os.getenv("VECTOR_DB_PORT", "8000"))
+TOP_K = int(os.getenv("TOP_K", "5"))
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
 
 SYSTEM_PROMPT = """
 You must follow the output format exactly.
@@ -57,16 +59,20 @@ def ask_ollama(prompt):
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    with urllib.request.urlopen(request) as response:
-        body = json.loads(response.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(request) as response:
+            body = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Ollama request failed with status {exc.code}: {detail}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"Unable to reach Ollama at {OLLAMA_URL}: {exc.reason}") from exc
     return body.get("response", "").strip()
 
 
-def main():
-    args = parse_args()
-
+def answer_question(query):
     matches = query_collection(
-        query=args.query,
+        query=query,
         host=VECTOR_DB_HOST,
         port=VECTOR_DB_PORT,
         collection_name=COLLECTION_NAME,
@@ -74,17 +80,31 @@ def main():
     )
 
     if not matches:
-        print("No matching chunks found.")
-        return
+        return {
+            "query": query,
+            "answer": "No matching chunks found.",
+            "matches": [],
+            "context": "",
+        }
 
     context = build_context(matches)
-
     user_prompt = (
-        f"Question: {args.query}\n\n"
+        f"Question: {query}\n\n"
         f"Context:\n{context}\n\n"
     )
+    answer = ask_ollama(user_prompt)
+    return {
+        "query": query,
+        "answer": answer,
+        "matches": matches,
+        "context": context,
+    }
 
-    print(ask_ollama(user_prompt))
+
+def main():
+    args = parse_args()
+    result = answer_question(args.query)
+    print(result["answer"])
 
 
 if __name__ == "__main__":

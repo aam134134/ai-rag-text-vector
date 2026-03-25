@@ -74,6 +74,29 @@ services:
     tty: true
     stdin_open: true
 
+  ask:
+    image: ai-rag-text-vector-ask:1.0
+    build:
+      context: ./ask
+      dockerfile: Dockerfile
+      args:
+        PROJECT_NAME: ai-rag-text-vector-ask
+    environment:
+      VECTOR_DB_HOST: chroma-vector-db
+      VECTOR_DB_PORT: 8000
+      TOP_K: 5
+      OLLAMA_MODEL: qwen2.5:1.5b
+      OLLAMA_URL: http://ollama:11434/api/generate
+    ports:
+      - "8010:8010"
+    networks:
+      - ai-rag-text-vector-net
+    container_name: ai-rag-text-vector-ask
+    depends_on:
+      - vector-db
+      - ollama
+    restart: unless-stopped
+
   ollama:
     image: ollama/ollama:0.18.2
     container_name: ollama
