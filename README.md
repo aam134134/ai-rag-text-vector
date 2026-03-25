@@ -24,7 +24,7 @@ This POC focuses on taking raw text, breaking it into useful pieces, embedding i
 - Copy ```./sample-data/book-war-and-peace-ch-01.txt``` into ```./data/ingest/inbox```
   - This will kick-off the file processing the ultimately insert the embeds into the vector db.
 - Give it a test: ```curl -X POST http://localhost:8010/ask -H "Content-Type: application/json" -d '{"query":"Who is Anna Pavlovna Scherer?"}'```
-- Shutdown container: ```podman compose down```
+- Shutdown all containers: ```podman compose down```
 
 ## 💡 Interesting Bits
 - [Text Ingest File Chunking](https://github.com/aam134134/ai-rag-text-vector/blob/7afefe55f518d57ce445cc0069261502dfe6446b/text-ingest/file_watcher.py#L38-L47)
