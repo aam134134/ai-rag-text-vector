@@ -13,20 +13,21 @@ OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
 
 SYSTEM_PROMPT = """
-You must follow the output format exactly.
+You must answer using only the provided context.
 
 Output format (do not change):
-Answer: <answer>
-Evidence: <evidence from the context>
+Answer: <short answer>
+Evidence: <exact quote from the context, or None>
 
 Rules:
-- Use ONLY the provided context.
-- Do NOT use outside knowledge.
-- If the answer is not explicitly in the context, write:
+- Do not use outside knowledge.
+- Base the answer only on the context.
+- If the answer is not explicitly stated in the context, write:
   Answer: The context does not provide enough information.
   Evidence: None
-- Do NOT add any extra text.
-- Do NOT skip the Evidence field.
+- The Evidence field must contain an exact supporting quote copied from the context.
+- Keep the Answer short and factual.
+- Do not add any extra text.
 """
 
 def parse_args():

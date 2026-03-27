@@ -12,7 +12,7 @@ TOP_K = int(os.getenv("TOP_K", "5"))
 EMBED_MODEL_NAME = os.getenv("EMBED_MODEL_NAME", "BAAI/bge-small-en-v1.5")
 EMBED_DEVICE = os.getenv("EMBED_DEVICE") or None
 EMBED_NORMALIZE = os.getenv("EMBED_NORMALIZE", "true").lower() == "true"
-QUERY_TEXT_PREFIX = os.getenv("QUERY_TEXT_PREFIX", "")
+QUERY_TEXT_PREFIX = os.getenv("QUERY_TEXT_PREFIX", "Represent this sentence for searching relevant passages: ")
 
 
 def build_query_input(query):
